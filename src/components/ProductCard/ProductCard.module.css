@@ -1,0 +1,16 @@
+/* Card Animation */
+.card {
+  animation: fadeInCard 0.7s ease;
+  transition: box-shadow 0.2s;
+}
+@keyframes fadeInCard {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.card {
+  transition: transform 0.2s ease;
+}
+
+.card:hover {
+  transform: scale(1.03);
+}
