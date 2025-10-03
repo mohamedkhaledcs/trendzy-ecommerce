@@ -1,7 +1,7 @@
 function Features() {
   return (
     <section className="features py-5 bg-white">
-      <div className="container text-center">
+      <div className="app-inner text-center">
         <h2 className="mb-5">Why Work With Me?</h2>
         <div className="row g-4">
           <div className="col-md-4">

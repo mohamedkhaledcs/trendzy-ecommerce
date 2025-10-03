@@ -10,7 +10,11 @@ function Toast({ message, type = "info", duration = 3000, onClose }) {
   }, [duration, onClose]);
 
   return (
-    <div className={`${styles.toast} ${styles[`toast-${type}`]}`}>{message}</div>
+    <div className={styles.floatingToastWrapper}>
+      <div className={`${styles.toast} ${styles[`toast-${type}`]} ${styles.floatingToast}`} role="alert" aria-live="assertive">
+        {message}
+      </div>
+    </div>
   );
 }
 

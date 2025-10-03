@@ -17,17 +17,23 @@ function ProductCard({ product }) {
     addToCart(product);
     showToast('Product added to cart!', 'success');
   };
+  // Defensive: handle missing product or varying data shapes
+  if (!product) return null;
+
+  const imgSrc = (product.images && product.images.length > 0 && product.images[0]) || product.image || '/images/products-placeholder.png';
+  const title = product.title || product.name || 'Product';
+  const price = typeof product.price !== 'undefined' ? product.price : '';
 
   return (
     <div className={`card h-100 shadow-sm ${styles.card}`}>
       <img
-        src={product.images[0]}
-        className="card-img-top"
-        alt={product.title}
+        src={imgSrc}
+        className={`card-img-top ${styles.productImg}`}
+        alt={title}
       />
       <div className="card-body">
-        <h5 className="card-title">{product.title}</h5>
-        <p className="card-text text-muted">{product.price} EGP</p>
+        <h5 className="card-title">{title}</h5>
+        <p className="card-text text-muted">{price ? `${price} EGP` : ''}</p>
         <div className="d-flex justify-content-between">
           <Link to={`/products/${product.id}`} className="btn btn-primary btn-sm">
             View Details

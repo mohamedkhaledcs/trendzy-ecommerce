@@ -8,11 +8,11 @@ import About from './pages/About';
 import Contact from './pages/Contact';
 import Cart from './pages/Cart';
 import NotFound from './pages/NotFound';
+import Profile from './pages/Profile';
 import { AuthProvider } from './context/AuthContext';
 import { CartProvider } from './context/CartContext';
 import { ToastProvider } from './context/ToastContext';
 import Layout from './components/layout/Layout';
-
 // التطبيق الرئيسي: يوفر سياق المصادقة والعربة، ويحتوي على الراوتر والصفحات
 function App() {
   return (
@@ -30,6 +30,7 @@ function App() {
                 <Route path="/about" element={<About />} />
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/cart" element={<Cart />} />
+                <Route path="/profile/:username" element={<Profile />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </Layout>

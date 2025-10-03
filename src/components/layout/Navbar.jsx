@@ -1,57 +1,121 @@
-import { Link } from 'react-router-dom';
+
+
+import React from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/useAuth';
 import { useCart } from '../../context/useCart';
 
+
+// Main navigation bar for the app
 function Navbar() {
+  // Get user and cart context
   const { user, logout } = useAuth();
   const { cart } = useCart();
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  // Navigation links for main pages
+  const navLinks = [
+    { to: '/products', label: 'Products' },
+    { to: '/about', label: 'About' },
+    { to: '/contact', label: 'Contact' },
+  ];
+
+  // Sticky navbar with blur effect on scroll
+  React.useEffect(() => {
+    const handleScroll = () => {
+      const nav = document.getElementById('main-navbar');
+      if (nav) {
+        if (window.scrollY > 10) {
+          nav.style.backdropFilter = 'blur(8px)';
+          nav.style.background = 'rgba(34,34,34,0.85)';
+        } else {
+          nav.style.backdropFilter = 'none';
+          nav.style.background = '#222';
+        }
+      }
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-      <div className="container">
-        <Link className="navbar-brand fw-bold" to="/">Trendzy</Link>
-        <button 
-          className="navbar-toggler" 
-          type="button" 
-          data-bs-toggle="collapse" 
-          data-bs-target="#navbarNav">
-          <span className="navbar-toggler-icon"></span>
-        </button>
-
-        <div className="collapse navbar-collapse" id="navbarNav">
-          <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-            <li className="nav-item"><Link className="nav-link" to="/products">Products</Link></li>
-            <li className="nav-item"><Link className="nav-link" to="/about">About</Link></li>
-            <li className="nav-item"><Link className="nav-link" to="/contact">Contact</Link></li>
-            {user?.role === "admin" && (
-              <li className="nav-item"><Link className="nav-link text-warning" to="/admin">Admin</Link></li>
-            )}
-          </ul>
-
-          <ul className="navbar-nav">
-            {user ? (
-              <>
-                <li className="nav-item">
-                  <Link className="nav-link position-relative" to="/cart">
-                    <i className="bi bi-cart"></i>
-                    {cart.length > 0 && (
-                      <span className="badge bg-danger position-absolute top-0 start-100 translate-middle">{cart.length}</span>
-                    )}
-                  </Link>
-                </li>
-                <li className="nav-item"><span className="nav-link">Hi, {user.username}</span></li>
-                <li className="nav-item"><button className="btn btn-sm btn-outline-light" onClick={logout}>Logout</button></li>
-              </>
-            ) : (
-              <>
-                <li className="nav-item"><Link className="nav-link" to="/login">Login</Link></li>
-                <li className="nav-item"><Link className="nav-link" to="/register">Register</Link></li>
-              </>
-            )}
-          </ul>
+    <header style={{ position: 'sticky', top: 0, zIndex: 100, width: '100%' }}>
+      <nav id="main-navbar" style={{ background: '#222', color: '#fff', boxShadow: '0 2px 8px rgba(0,0,0,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', maxWidth: 1200, margin: '0 auto', padding: '0.5rem 1.5rem', transition: 'background 0.3s, backdrop-filter 0.3s' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '2rem' }}>
+          {/* Logo link to home */}
+          <Link to="/" style={{ fontWeight: 'bold', fontSize: '1.5rem', color: '#0d6efd', textDecoration: 'none' }}>Trendzy</Link>
+          {/* Main navigation links */}
+          {navLinks.map(link => (
+            <Link
+              key={link.to}
+              to={link.to}
+              style={{
+                color: location.pathname.startsWith(link.to) ? '#0d6efd' : '#fff',
+                textDecoration: 'none',
+                fontWeight: location.pathname.startsWith(link.to) ? 'bold' : 'normal',
+                padding: '0.5rem 0.75rem',
+                borderRadius: '6px',
+                background: location.pathname.startsWith(link.to) ? '#e7f3fe' : 'transparent',
+                transition: 'background 0.2s',
+              }}
+            >
+              {link.label}
+            </Link>
+          ))}
+          {/* Admin link only for admin users */}
+          {user?.role === 'admin' && (
+            <Link
+              to="/admin"
+              style={{
+                color: location.pathname.startsWith('/admin') ? '#ffc107' : '#fff',
+                fontWeight: 'bold',
+                padding: '0.5rem 0.75rem',
+                borderRadius: '6px',
+                background: location.pathname.startsWith('/admin') ? '#fff3cd' : 'transparent',
+                textDecoration: 'none',
+                transition: 'background 0.2s',
+              }}
+            >
+              Admin
+            </Link>
+          )}
         </div>
-      </div>
-    </nav>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
+          {/* Cart icon with item count */}
+          <Link to="/cart" style={{ color: '#fff', position: 'relative', textDecoration: 'none' }}>
+            <i className="bi bi-cart" style={{ fontSize: '1.3rem' }}></i>
+            {cart.length > 0 && (
+              <span style={{ position: 'absolute', top: -8, right: -12, background: '#dc3545', color: '#fff', borderRadius: '50%', padding: '2px 7px', fontSize: '0.8rem', fontWeight: 'bold' }}>{cart.length}</span>
+            )}
+          </Link>
+          {/* User section: profile link and logout if logged in, else login/register */}
+          {user ? (
+            <>
+              {/* Username is clickable and navigates to profile */}
+              <span
+                style={{ color: '#fff', fontWeight: 'bold', cursor: 'pointer', textDecoration: 'underline' }}
+                onClick={() => navigate(`/profile/${user.username}`)}
+                title="View your profile"
+              >
+                Hi, {user.username}
+              </span>
+              <button
+                style={{ background: '#fff', color: '#222', border: 'none', borderRadius: '6px', padding: '6px 16px', fontWeight: 'bold', cursor: 'pointer' }}
+                onClick={() => { logout(); navigate('/'); }}
+              >
+                Logout
+              </button>
+            </>
+          ) : (
+            <>
+              <Link to="/login" style={{ color: '#fff', textDecoration: 'none', fontWeight: 'bold' }}>Login</Link>
+              <Link to="/register" style={{ color: '#fff', textDecoration: 'none', fontWeight: 'bold' }}>Register</Link>
+            </>
+          )}
+        </div>
+      </nav>
+    </header>
   );
 }
 

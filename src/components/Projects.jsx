@@ -1,7 +1,7 @@
 function Projects() {
   return (
     <section className="projects py-5 bg-light">
-      <div className="container text-center">
+      <div className="app-inner text-center">
         <h2 className="mb-5">Some of My Work</h2>
         <div className="row g-4">
           <div className="col-md-4">

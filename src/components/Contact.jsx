@@ -1,7 +1,7 @@
 function Contact() {
   return (
     <section id="contact" className="contact py-5 bg-white">
-      <div className="container text-center">
+      <div className="app-inner text-center">
         <h2 className="mb-4">Get in Touch</h2>
         <form className="mx-auto" style={{ maxWidth: "600px" }}>
           <div className="mb-3">

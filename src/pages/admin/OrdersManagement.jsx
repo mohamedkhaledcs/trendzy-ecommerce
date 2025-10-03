@@ -16,38 +16,46 @@ function OrdersManagement() {
 		localStorage.setItem("orders", JSON.stringify(updatedOrders));
 	};
 
-	return (
-		<div className="p-6">
-			<h2 className="text-xl font-bold mb-4">Orders Management</h2>
-			<table className="w-full border">
-				<thead className="bg-gray-100">
-					<tr>
-						<th className="p-2 border">Order ID</th>
-						<th className="p-2 border">User</th>
-						<th className="p-2 border">Products</th>
-						<th className="p-2 border">Status</th>
-						<th className="p-2 border">Actions</th>
-					</tr>
-				</thead>
-				<tbody>
-					{orders.map(order => (
-						<tr key={order.id}>
-							<td className="p-2 border">{order.id}</td>
-							<td className="p-2 border">{order.username}</td>
-							<td className="p-2 border">
-								{order.products.map(p => `${p.title} x${p.quantity}`).join(", ")}
-							</td>
-							<td className="p-2 border">{order.status}</td>
-							<td className="p-2 border">
-								<button className="btn btn-success btn-sm mx-1" onClick={() => updateOrderStatus(order.id, "confirmed")}>Confirm</button>
-								<button className="btn btn-danger btn-sm mx-1" onClick={() => updateOrderStatus(order.id, "rejected")}>Reject</button>
-							</td>
-						</tr>
-					))}
-				</tbody>
-			</table>
-		</div>
-	);
+		return (
+			<main className="container-fluid py-5 reset-side-margins" style={{ width: '100%', minHeight: '70vh', background: 'rgba(255,255,255,0.92)', borderRadius: '18px', boxShadow: '0 2px 16px rgba(0,0,0,0.08)', marginTop: '32px', padding: '32px 0' }}>
+				<div className="app-inner">
+				<div className="row justify-content-center">
+					<div className="col-12 col-md-10">
+						<div className="card shadow rounded p-4">
+							<h2 className="fw-bold mb-4 text-center">Orders Management</h2>
+							<div className="table-responsive">
+								<table className="table table-bordered table-hover align-middle">
+									<thead className="table-light">
+										<tr>
+											<th>Order ID</th>
+											<th>User</th>
+											<th>Products</th>
+											<th>Status</th>
+											<th>Actions</th>
+										</tr>
+									</thead>
+									<tbody>
+										{orders.map(order => (
+											<tr key={order.id}>
+												<td>{order.id}</td>
+												<td>{order.username}</td>
+												<td>{order.products.map(p => `${p.title} x${p.quantity}`).join(", ")}</td>
+												<td>{order.status}</td>
+												<td>
+													<button className="btn btn-success btn-sm mx-1" onClick={() => updateOrderStatus(order.id, "confirmed")}>Confirm</button>
+													<button className="btn btn-danger btn-sm mx-1" onClick={() => updateOrderStatus(order.id, "rejected")}>Reject</button>
+												</td>
+											</tr>
+										))}
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+					</div>
+						</div>
+					</main>
+		);
 }
 
 export default OrdersManagement;

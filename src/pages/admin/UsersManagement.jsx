@@ -14,31 +14,41 @@ function UsersManagement() {
 		localStorage.setItem("users", JSON.stringify(updatedUsers));
 	};
 
-	return (
-		<div className="p-6">
-			<h2 className="text-xl font-bold mb-4">Users Management</h2>
-			<table className="w-full border">
-				<thead className="bg-gray-100">
-					<tr>
-						<th className="p-2 border">Username</th>
-						<th className="p-2 border">Role</th>
-						<th className="p-2 border">Actions</th>
-					</tr>
-				</thead>
-				<tbody>
-					{users.map(user => (
-						<tr key={user.username}>
-							<td className="p-2 border">{user.username}</td>
-							<td className="p-2 border">{user.role}</td>
-							<td className="p-2 border">
-								<button className="btn btn-danger btn-sm" onClick={() => deleteUser(user.username)}>Delete</button>
-							</td>
-						</tr>
-					))}
-				</tbody>
-			</table>
-		</div>
-	);
+		return (
+			<main className="container-fluid py-5 reset-side-margins" style={{ width: '100%', minHeight: '70vh', background: 'rgba(255,255,255,0.92)', borderRadius: '18px', boxShadow: '0 2px 16px rgba(0,0,0,0.08)', marginTop: '32px', padding: '32px 0' }}>
+				<div className="app-inner">
+				<div className="row justify-content-center">
+					<div className="col-12 col-md-10">
+						<div className="card shadow rounded p-4">
+							<h2 className="fw-bold mb-4 text-center">Users Management</h2>
+							<div className="table-responsive">
+								<table className="table table-bordered table-hover align-middle">
+									<thead className="table-light">
+										<tr>
+											<th>Username</th>
+											<th>Role</th>
+											<th>Actions</th>
+										</tr>
+									</thead>
+									<tbody>
+										{users.map(user => (
+											<tr key={user.username}>
+												<td>{user.username}</td>
+												<td>{user.role}</td>
+												<td>
+													<button className="btn btn-danger btn-sm" onClick={() => deleteUser(user.username)}>Delete</button>
+												</td>
+											</tr>
+										))}
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+					</div>
+					</div>
+					</main>
+		);
 }
 
 export default UsersManagement;
